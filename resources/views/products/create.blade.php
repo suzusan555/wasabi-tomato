@@ -9,9 +9,7 @@
         <div class="container">
           <h1>WASABI & TOMATO</h1>
           <div class="item-wrapper">
-            <p>{{ $product->name }}</p>
-            <p>{{ $product->title }}</p>
-            <p>{{ $product->content }}</p>
+            <p>商品登録画面</p>
           </div>
         </div>
         <p>

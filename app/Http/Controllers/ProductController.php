@@ -28,7 +28,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('products.create');
     }
 
     /**
@@ -48,9 +48,10 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show(Product $product, $id)
     {
-        //
+        $product = Product::find($id);
+        return view('products/detail', ['product' => $product]);
     }
 
     /**
@@ -85,5 +86,28 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    public function search(Request $request)
+    {
+        $query = Product::query();
+
+        $searchWord = $request->input('name');
+        $searchId = $request->input('user_id');
+
+        if(isset($searchWord)) {
+            $query->where('name', 'like', '%'.$searchWord.'%');
+        }
+        if(isset($searchId)) {
+            $query->where('user_id', 'like', '%'.$searchId.'%');
+        }
+
+        $products = $query->orderBy('updated_at', 'asc')->paginate(9);
+
+        return view('product.search', [
+            'products' => $products,
+            'searchWord' => $searchWord,
+            'searchId' => $searchId,
+        ]);
     }
 }
